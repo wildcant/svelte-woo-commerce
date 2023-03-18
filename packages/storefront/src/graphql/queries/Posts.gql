@@ -1,0 +1,17 @@
+query Posts {
+  posts {
+    nodes {
+      author {
+        node {
+          id
+          firstName
+          email
+        }
+      }
+      date
+      id
+      excerpt
+      slug
+    }
+  }
+}

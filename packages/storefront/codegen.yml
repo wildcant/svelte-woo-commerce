@@ -1,0 +1,39 @@
+overwrite: true
+schema: http://localhost:8000/graphql
+
+documents: 'src/graphql/**/*.gql'
+
+definitions:
+  add: &top-comment
+    content: >
+      /*
+       * -------------------------------------------------------
+       * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+       * -------------------------------------------------------
+       */
+
+      /* eslint-disable */
+
+generates:
+  src/graphql/schema.d.ts:
+    plugins:
+      - add: *top-comment
+      - typescript
+      - typescript-operations
+    config:
+      useTypeImports: true
+
+  src/graphql/sdk.ts:
+    plugins:
+      - add: *top-comment
+      - typescript-graphql-request
+    config:
+      useTypeImports: true
+    preset: import-types
+    presetConfig:
+      typesPath: ./schema
+
+# Temporal for graphql-request import issue, see https://github.com/dotansimha/graphql-code-generator/issues/9046#issuecomment-1465246282
+hooks:
+  afterAllFileWrite:
+    - sed -i '' -e 's|graphql-request/dist/types\.dom|graphql-request/src/types.dom|g'

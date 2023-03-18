@@ -1,0 +1,6 @@
+{
+  "name": "wordpress",
+  "scripts": {
+    "temp": "docker compose up -d"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "storefront",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"vite dev\" \"pnpm generate --watch\"",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "eslint .",
+    "generate": "graphql-codegen --config codegen.yml"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@graphql-codegen/add": "^4.0.1",
+    "@graphql-codegen/cli": "^3.2.2",
+    "@graphql-codegen/import-types-preset": "^2.2.6",
+    "@graphql-codegen/typescript": "^3.0.2",
+    "@graphql-codegen/typescript-graphql-request": "^4.5.8",
+    "@graphql-codegen/typescript-operations": "^3.0.2",
+    "@sveltejs/adapter-auto": "^2.0.0",
+    "@sveltejs/kit": "^1.5.0",
+    "@types/node": "^18.15.3",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "concurrently": "^7.6.0",
+    "eslint": "^8.28.0",
+    "eslint-plugin-svelte3": "^4.0.0",
+    "svelte": "^3.54.0",
+    "svelte-check": "^3.0.1",
+    "tslib": "^2.4.1",
+    "typescript": "^4.9.3",
+    "vite": "^4.0.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "graphql": "^16.6.0",
+    "graphql-request": "^5.2.0",
+    "graphql-tag": "^2.12.6"
+  }
+}

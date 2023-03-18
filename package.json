@@ -1,0 +1,14 @@
+{
+  "name": "donrolls",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "find . -name node_modules -o -name dist -type d -prune | xargs rm -rf",
+    "dev": "pnpm --filter wordpress dev && pnpm --filter storefront dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@7.29.1"
+}
