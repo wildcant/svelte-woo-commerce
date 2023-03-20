@@ -1,17 +1,13 @@
 <script lang="ts">
-  import Button from 'src/components/Button.svelte'
+  import { refreshCart } from 'src/store'
+  import { onMount } from 'svelte'
+  import Products from './Products.svelte'
+
   export let data
+  const products = data?.products?.nodes
+  onMount(refreshCart)
 </script>
 
-<div>Hello there</div>
-
-{#if data}
-  <pre>{JSON.stringify(data, null, 2)}</pre>
-  <div>{data.posts?.nodes[0].slug}</div>
+{#if products}
+  <Products {products} />
 {/if}
-
-<h1>Welcome to SvelteKit</h1>
-<p>
-  Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation
-</p>
-<Button />

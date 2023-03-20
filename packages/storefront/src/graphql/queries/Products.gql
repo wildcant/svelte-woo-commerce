@@ -1,0 +1,22 @@
+query Products {
+  products {
+    nodes {
+      ... on SimpleProduct {
+        price
+        ...ProductFragment
+      }
+      ... on ExternalProduct {
+        price
+        ...ProductFragment
+      }
+      ... on GroupProduct {
+        price
+        ...ProductFragment
+      }
+      ... on VariableProduct {
+        price
+        ...ProductFragment
+      }
+    }
+  }
+}

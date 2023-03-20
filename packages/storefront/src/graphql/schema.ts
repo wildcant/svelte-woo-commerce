@@ -6995,8 +6995,12 @@ export type MenuItemToMenuItemLinkableConnectionEdge = Edge & MenuItemLinkableCo
 
 /** Registered menu locations */
 export enum MenuLocationEnum {
-  /** Empty menu location */
-  Empty = 'EMPTY'
+  /** Put the menu in the handheld location */
+  Handheld = 'HANDHELD',
+  /** Put the menu in the primary location */
+  Primary = 'PRIMARY',
+  /** Put the menu in the secondary location */
+  Secondary = 'SECONDARY'
 }
 
 /** The Type of Identifier used to fetch a single node. Default is "ID". To be used along with the "id" field. */
@@ -9313,8 +9317,6 @@ export type PostPostFormatsNodeInput = {
 
 /** The status of the object. */
 export enum PostStatusEnum {
-  /** Objects with the acf-disabled status */
-  AcfDisabled = 'ACF_DISABLED',
   /** Objects with the auto-draft status */
   AutoDraft = 'AUTO_DRAFT',
   /** Objects with the draft status */
@@ -18938,15 +18940,15 @@ export type TaxonomyToContentTypeConnectionPageInfo = ContentTypeConnectionPageI
 };
 
 /** The template assigned to the node */
-export type Template_Blank = ContentTemplate & {
-  __typename?: 'Template_Blank';
+export type Template_AnchoCompleto = ContentTemplate & {
+  __typename?: 'Template_AnchoCompleto';
   /** The name of the template */
   templateName?: Maybe<Scalars['String']>;
 };
 
 /** The template assigned to the node */
-export type Template_BlogAlternative = ContentTemplate & {
-  __typename?: 'Template_BlogAlternative';
+export type Template_PaginaDeInicio = ContentTemplate & {
+  __typename?: 'Template_PaginaDeInicio';
   /** The name of the template */
   templateName?: Maybe<Scalars['String']>;
 };
@@ -21929,7 +21931,48 @@ export type WritingSettings = {
   useSmilies?: Maybe<Scalars['Boolean']>;
 };
 
+type ProductFragment_ExternalProduct_Fragment = { __typename: 'ExternalProduct', id: string, title?: string | null, name?: string | null, productId: number, image?: { __typename?: 'MediaItem', sourceUrl?: string | null } | null };
+
+type ProductFragment_GroupProduct_Fragment = { __typename: 'GroupProduct', id: string, title?: string | null, name?: string | null, productId: number, image?: { __typename?: 'MediaItem', sourceUrl?: string | null } | null };
+
+type ProductFragment_SimpleProduct_Fragment = { __typename: 'SimpleProduct', id: string, title?: string | null, name?: string | null, productId: number, image?: { __typename?: 'MediaItem', sourceUrl?: string | null } | null };
+
+type ProductFragment_VariableProduct_Fragment = { __typename: 'VariableProduct', id: string, title?: string | null, name?: string | null, productId: number, image?: { __typename?: 'MediaItem', sourceUrl?: string | null } | null };
+
+export type ProductFragmentFragment = ProductFragment_ExternalProduct_Fragment | ProductFragment_GroupProduct_Fragment | ProductFragment_SimpleProduct_Fragment | ProductFragment_VariableProduct_Fragment;
+
+export type AddToCartMutationVariables = Exact<{
+  input: AddToCartInput;
+}>;
+
+
+export type AddToCartMutation = { __typename?: 'RootMutation', addToCart?: { __typename?: 'AddToCartPayload', cartItem?: { __typename?: 'CartItem', key: string, quantity?: number | null, total?: string | null, subtotal?: string | null, subtotalTax?: string | null, product?: { __typename?: 'CartItemToProductConnectionEdge', node: { __typename?: 'ExternalProduct', id: string, name?: string | null, description?: string | null, type?: ProductTypesEnum | null, onSale?: boolean | null, slug?: string | null, averageRating?: number | null, reviewCount?: number | null, productId: number, image?: { __typename?: 'MediaItem', id: string, sourceUrl?: string | null, altText?: string | null } | null, galleryImages?: { __typename?: 'ProductToMediaItemConnection', nodes: Array<{ __typename?: 'MediaItem', id: string, sourceUrl?: string | null, altText?: string | null }> } | null } | { __typename?: 'GroupProduct', id: string, name?: string | null, description?: string | null, type?: ProductTypesEnum | null, onSale?: boolean | null, slug?: string | null, averageRating?: number | null, reviewCount?: number | null, productId: number, image?: { __typename?: 'MediaItem', id: string, sourceUrl?: string | null, altText?: string | null } | null, galleryImages?: { __typename?: 'ProductToMediaItemConnection', nodes: Array<{ __typename?: 'MediaItem', id: string, sourceUrl?: string | null, altText?: string | null }> } | null } | { __typename?: 'SimpleProduct', id: string, name?: string | null, description?: string | null, type?: ProductTypesEnum | null, onSale?: boolean | null, slug?: string | null, averageRating?: number | null, reviewCount?: number | null, productId: number, image?: { __typename?: 'MediaItem', id: string, sourceUrl?: string | null, altText?: string | null } | null, galleryImages?: { __typename?: 'ProductToMediaItemConnection', nodes: Array<{ __typename?: 'MediaItem', id: string, sourceUrl?: string | null, altText?: string | null }> } | null } | { __typename?: 'VariableProduct', id: string, name?: string | null, description?: string | null, type?: ProductTypesEnum | null, onSale?: boolean | null, slug?: string | null, averageRating?: number | null, reviewCount?: number | null, productId: number, image?: { __typename?: 'MediaItem', id: string, sourceUrl?: string | null, altText?: string | null } | null, galleryImages?: { __typename?: 'ProductToMediaItemConnection', nodes: Array<{ __typename?: 'MediaItem', id: string, sourceUrl?: string | null, altText?: string | null }> } | null } } | null, variation?: { __typename?: 'CartItemToProductVariationConnectionEdge', node: { __typename?: 'ProductVariation', id: string, name?: string | null, description?: string | null, type?: ProductTypesEnum | null, onSale?: boolean | null, price?: string | null, regularPrice?: string | null, salePrice?: string | null, variationId: number, image?: { __typename?: 'MediaItem', id: string, sourceUrl?: string | null, altText?: string | null } | null }, attributes?: Array<{ __typename?: 'VariationAttribute', id: string, attributeId?: number | null, name?: string | null, value?: string | null } | null> | null } | null } | null } | null };
+
+export type CheckoutMutationVariables = Exact<{
+  input: CheckoutInput;
+}>;
+
+
+export type CheckoutMutation = { __typename?: 'RootMutation', checkout?: { __typename?: 'CheckoutPayload', clientMutationId?: string | null, result?: string | null, redirect?: string | null, order?: { __typename?: 'Order', id: string, orderKey?: string | null, orderNumber?: string | null, status?: OrderStatusEnum | null, refunds?: { __typename?: 'OrderToRefundConnection', nodes: Array<{ __typename?: 'Refund', amount?: number | null }> } | null } | null } | null };
+
+export type RemoveItemFromCartMutationVariables = Exact<{
+  input: RemoveItemsFromCartInput;
+}>;
+
+
+export type RemoveItemFromCartMutation = { __typename?: 'RootMutation', removeItemsFromCart?: { __typename?: 'RemoveItemsFromCartPayload', cartItems?: Array<{ __typename?: 'CartItem', quantity?: number | null } | null> | null } | null };
+
+export type CartQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CartQuery = { __typename?: 'RootQuery', cart?: { __typename?: 'Cart', subtotal?: string | null, subtotalTax?: string | null, shippingTax?: string | null, shippingTotal?: string | null, total?: string | null, totalTax?: string | null, feeTax?: string | null, feeTotal?: string | null, discountTax?: string | null, discountTotal?: string | null, contents?: { __typename?: 'CartToCartItemConnection', nodes: Array<{ __typename?: 'CartItem', key: string, quantity?: number | null, total?: string | null, subtotal?: string | null, subtotalTax?: string | null, product?: { __typename?: 'CartItemToProductConnectionEdge', node: { __typename?: 'ExternalProduct', id: string, name?: string | null, description?: string | null, type?: ProductTypesEnum | null, onSale?: boolean | null, slug?: string | null, averageRating?: number | null, reviewCount?: number | null, productId: number, image?: { __typename?: 'MediaItem', id: string, sourceUrl?: string | null, srcSet?: string | null, altText?: string | null, title?: string | null } | null, galleryImages?: { __typename?: 'ProductToMediaItemConnection', nodes: Array<{ __typename?: 'MediaItem', id: string, sourceUrl?: string | null, srcSet?: string | null, altText?: string | null, title?: string | null }> } | null } | { __typename?: 'GroupProduct', id: string, name?: string | null, description?: string | null, type?: ProductTypesEnum | null, onSale?: boolean | null, slug?: string | null, averageRating?: number | null, reviewCount?: number | null, productId: number, image?: { __typename?: 'MediaItem', id: string, sourceUrl?: string | null, srcSet?: string | null, altText?: string | null, title?: string | null } | null, galleryImages?: { __typename?: 'ProductToMediaItemConnection', nodes: Array<{ __typename?: 'MediaItem', id: string, sourceUrl?: string | null, srcSet?: string | null, altText?: string | null, title?: string | null }> } | null } | { __typename?: 'SimpleProduct', id: string, name?: string | null, description?: string | null, type?: ProductTypesEnum | null, onSale?: boolean | null, slug?: string | null, averageRating?: number | null, reviewCount?: number | null, productId: number, image?: { __typename?: 'MediaItem', id: string, sourceUrl?: string | null, srcSet?: string | null, altText?: string | null, title?: string | null } | null, galleryImages?: { __typename?: 'ProductToMediaItemConnection', nodes: Array<{ __typename?: 'MediaItem', id: string, sourceUrl?: string | null, srcSet?: string | null, altText?: string | null, title?: string | null }> } | null } | { __typename?: 'VariableProduct', id: string, name?: string | null, description?: string | null, type?: ProductTypesEnum | null, onSale?: boolean | null, slug?: string | null, averageRating?: number | null, reviewCount?: number | null, productId: number, image?: { __typename?: 'MediaItem', id: string, sourceUrl?: string | null, srcSet?: string | null, altText?: string | null, title?: string | null } | null, galleryImages?: { __typename?: 'ProductToMediaItemConnection', nodes: Array<{ __typename?: 'MediaItem', id: string, sourceUrl?: string | null, srcSet?: string | null, altText?: string | null, title?: string | null }> } | null } } | null, variation?: { __typename?: 'CartItemToProductVariationConnectionEdge', node: { __typename?: 'ProductVariation', id: string, name?: string | null, description?: string | null, type?: ProductTypesEnum | null, onSale?: boolean | null, price?: string | null, regularPrice?: string | null, salePrice?: string | null, variationId: number, image?: { __typename?: 'MediaItem', id: string, sourceUrl?: string | null, srcSet?: string | null, altText?: string | null, title?: string | null } | null }, attributes?: Array<{ __typename?: 'VariationAttribute', id: string, name?: string | null, value?: string | null } | null> | null } | null }> } | null, appliedCoupons?: Array<{ __typename?: 'AppliedCoupon', code: string, discountAmount: string, discountTax: string } | null> | null } | null };
+
 export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PostsQuery = { __typename?: 'RootQuery', posts?: { __typename?: 'RootQueryToPostConnection', nodes: Array<{ __typename?: 'Post', date?: string | null, id: string, excerpt?: string | null, slug?: string | null, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node: { __typename?: 'User', id: string, firstName?: string | null, email?: string | null } } | null }> } | null };
+
+export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProductsQuery = { __typename?: 'RootQuery', products?: { __typename?: 'RootQueryToProductConnection', nodes: Array<{ __typename: 'ExternalProduct', price?: string | null, id: string, title?: string | null, name?: string | null, productId: number, image?: { __typename?: 'MediaItem', sourceUrl?: string | null } | null } | { __typename: 'GroupProduct', price?: string | null, id: string, title?: string | null, name?: string | null, productId: number, image?: { __typename?: 'MediaItem', sourceUrl?: string | null } | null } | { __typename: 'SimpleProduct', price?: string | null, id: string, title?: string | null, name?: string | null, productId: number, image?: { __typename?: 'MediaItem', sourceUrl?: string | null } | null } | { __typename: 'VariableProduct', price?: string | null, id: string, title?: string | null, name?: string | null, productId: number, image?: { __typename?: 'MediaItem', sourceUrl?: string | null } | null }> } | null };

@@ -1,3 +1,3 @@
-import {client} from 'src/graphql-client'
+import { client } from 'src/graphql-client'
 
-export const load = () => client.Posts()
+export const load = () => client.Products()

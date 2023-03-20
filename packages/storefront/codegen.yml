@@ -15,7 +15,7 @@ definitions:
       /* eslint-disable */
 
 generates:
-  src/graphql/schema.d.ts:
+  src/graphql/schema.ts:
     plugins:
       - add: *top-comment
       - typescript

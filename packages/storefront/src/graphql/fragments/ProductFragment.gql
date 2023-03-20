@@ -1,0 +1,10 @@
+fragment ProductFragment on Product {
+  __typename
+  id
+  productId: databaseId
+  title
+  name
+  image {
+    sourceUrl
+  }
+}
