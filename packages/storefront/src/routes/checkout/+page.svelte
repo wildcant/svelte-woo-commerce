@@ -1,7 +1,9 @@
 <script lang="ts">
+  import { PUBLIC_WOMPI_API_KEY, PUBLIC_WOMPI_API_URL } from '$env/static/public'
   import { client } from 'src/graphql-client'
   import { CountriesEnum, type CustomerAddressInput } from 'src/graphql/schema'
-  import type { Option } from 'src/types'
+  import { cart, sessionId } from 'src/store'
+  import type { MerchantResponse, Option } from 'src/types'
   import DeliveryMethodRadioInput from './DeliveryMethodRadioInput.svelte'
   import OrderSummary from './OrderSummary.svelte'
   import RadioInput from './RadioInput.svelte'
@@ -35,23 +37,58 @@
 
   const uuid = crypto.randomUUID()
 
-  const checkout = () => {
-    const customerAddressInput: CustomerAddressInput = {
-      firstName,
-      lastName,
-      address1,
-      address2,
-      city,
-      country,
-      state,
-      postcode,
-      email,
-      phone,
-      company,
-    }
+  /** Extracts and returns float value from a string. */
+  export const getFloatVal = (str?: string | null) => {
+    if (!str) return null
+    let floatValue = str.match(/[+-]?\d+(\.\d+)?/g)?.[0]
+    // TODO: Check woocommerce API and fix decimal numbers.
+    return floatValue ? parseFloat(floatValue.replace('.', '')) : null
+  }
 
-    client
-      .Checkout({
+  /** The wompi acceptance_token is required in order to make a transaction. */
+  const fetchAcceptanceToken = async () =>
+    fetch(`${PUBLIC_WOMPI_API_URL}/merchants/${PUBLIC_WOMPI_API_KEY}`)
+      .then((res) => res.json())
+      .then((merchantResponse: MerchantResponse) => merchantResponse.data.presigned_acceptance.acceptance_token)
+      .catch(console.error) // TODO: Handle error.
+
+  /** Format data to create a new wompi transaction. */
+  const buildTransaction = async (amount: number, reference: string) => ({
+    sessionId: $sessionId,
+    acceptance_token: await fetchAcceptanceToken(),
+    amount_in_cents: amount * 100,
+    currency: 'COP',
+    customer_email: email,
+    reference,
+    // TODO: Wire with payment method input.
+    payment_method: {
+      type: 'NEQUI',
+      phone_number: '3991111111',
+    },
+  })
+
+  const buildCustomerAddress = (): CustomerAddressInput => ({
+    firstName,
+    lastName,
+    address1,
+    address2,
+    city,
+    country,
+    state,
+    postcode,
+    email,
+    phone,
+    company,
+  })
+
+  const checkout = async () => {
+    const amount = getFloatVal($cart?.total)
+    if (!amount) return // TODO: Handle error.
+
+    const customerAddressInput = buildCustomerAddress()
+    let reference
+    try {
+      const response = await client.Checkout({
         input: {
           clientMutationId: uuid,
           shipping: customerAddressInput,
@@ -61,9 +98,42 @@
           isPaid: false,
         },
       })
-      .then(console.log)
-      .catch(console.error)
+      reference = response.checkout?.order?.orderNumber
+      if (!reference) {
+        throw new Error('Missing order number from checkout.')
+      }
+    } catch (error) {
+      console.error(error) // TODO: Handle Error
+      return
+    }
+
+    let transaction
+    try {
+      transaction = await buildTransaction(amount, reference)
+    } catch (error) {
+      console.error(error)
+      // TODO: Handle error.
+      return
+    }
+
+    try {
+      const requestResponse = await fetch(`${PUBLIC_WOMPI_API_URL}/transactions`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${PUBLIC_WOMPI_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(transaction),
+      })
+      const transactionResponse = requestResponse.json()
+    } catch (error) {
+      console.error(error)
+      // TODO: Handle error.
+      return
+    }
   }
+
+  // TODO: update woocommerce status based on wompi transaction status (we might need to poll wompi endpoint, see docs https://docs.wompi.co/en/docs/colombia/metodos-de-pago)
 </script>
 
 <div class="bg-slate-50">
