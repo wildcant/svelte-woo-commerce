@@ -1,5 +1,5 @@
 query Products {
-  products {
+  products(where: { onSale: true, visibility: CATALOG }) {
     nodes {
       ... on SimpleProduct {
         price

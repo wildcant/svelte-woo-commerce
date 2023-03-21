@@ -219,7 +219,7 @@ export const PostsDocument = gql`
     `;
 export const ProductsDocument = gql`
     query Products {
-  products {
+  products(where: {onSale: true, visibility: CATALOG}) {
     nodes {
       ... on SimpleProduct {
         price

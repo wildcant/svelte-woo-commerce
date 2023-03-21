@@ -39,12 +39,13 @@ wp-config.php
 # All plugins
 # Note: If you wish to whitelist plugins,
 # uncomment the next line
-#/wp-content/plugins
+/src/wp-content/plugins
 
 # All themes
 # Note: If you wish to whitelist themes,
 # uncomment the next line
-#/wp-content/themes
+/src/wp-content/themes
 
 
 # End of https://www.toptal.com/developers/gitignore/api/wordpress
+.env

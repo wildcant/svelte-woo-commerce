@@ -28,6 +28,8 @@ pnpm generate
 ### References
 
 - https://github.dev/imranhsayed/woo-next/tree/master
+- https://woo-next-imranhsayed.vercel.app/
+- https://docs.wompi.co/en/docs/colombia/js/
 
 ## UI inspiration
 

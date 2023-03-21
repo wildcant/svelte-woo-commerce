@@ -1,6 +1,6 @@
 {
-  "name": "wordpress",
+  "name": "commerce",
   "scripts": {
-    "temp": "docker compose up -d"
+    "dev": "docker compose up -d"
   }
 }
